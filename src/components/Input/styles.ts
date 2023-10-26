@@ -15,14 +15,15 @@ export const InputContainer = styled.div<InputProps>`
     padding: 0;
     border: none;
     border-radius: 0;
-    border-bottom: 1px solid #000; /* Cor e largura do traço */
+    border-bottom: 1px solid ${(props) => props.theme["gray-100"]};
     outline: none; /* Remover a borda ao focar (opcional) */
+    background: transparent;
 
     &:focus {
-      border-bottom: 2px solid #00f; /* Cor e largura do traço ao focar (opcional) */
+      border-bottom: 2px solid ${(props) => props.theme["primary"]}; /* Cor e largura do traço ao focar (opcional) */
     }
   }
   span {
-    color: red;
+    color: ${(props) => props.theme["danger"]};
   }
 `;

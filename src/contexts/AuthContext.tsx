@@ -62,7 +62,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const getLogged = async () => {
     if (typeof window !== "undefined") {
       const logged = localStorage?.getItem("logged");
-      return logged && JSON.parse(logged);
+      if (logged) {
+        const userLogged = JSON.parse(logged);
+        console.log("logged", userLogged.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Basic ${userLogged.token}`;
+        axios.defaults.headers.common["Cache-Control"] = "no-store";
+
+        return logged && JSON.parse(logged);
+      }
     }
     return;
   };

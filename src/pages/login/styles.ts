@@ -27,6 +27,6 @@ export const LoginContainer = styled.main`
     line-height: 32px;
   }
   span {
-    color: red;
+    color: ${(props) => props.theme["danger"]};
   }
 `;

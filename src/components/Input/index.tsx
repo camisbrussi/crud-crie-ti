@@ -21,7 +21,12 @@ export function Input({
   return (
     <InputContainer width={width}>
       <label htmlFor={id}>{label}</label>
-      <input placeholder={placeholder} {...rest} {...register(id)} />
+      <input
+        placeholder={placeholder}
+        {...rest}
+        {...register(id)}
+        autoComplete="on"
+      />
       {errorMessage && <span>{errorMessage}</span>}
     </InputContainer>
   );

@@ -12,7 +12,7 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
 
   border-radius: 10px;
 
-  color: white;
-  background-color: #56ccf2;
+  color: ${(props) => props.theme["white"]};
+  background-color: ${(props) => props.theme["primary"]};
   border: none;
 `;
