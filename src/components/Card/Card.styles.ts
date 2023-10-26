@@ -5,13 +5,12 @@ interface IconButtonProps {
 }
 
 export const DivContainer = styled.div`
-  width: 100%;
+  width: 75rem;
   height: 4rem;
   background: ${(props) => props.theme.secondaryBackground};
   border: 1px solid ${(props) => props.theme["gray-100"]};
   border-radius: 8px;
 
-  margin: 100px 250px; /* Largura da barra lateral */
   padding: 20px;
 
   strong {

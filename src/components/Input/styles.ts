@@ -18,6 +18,7 @@ export const InputContainer = styled.div<InputProps>`
     border-bottom: 1px solid ${(props) => props.theme["gray-100"]};
     outline: none; /* Remover a borda ao focar (opcional) */
     background: transparent;
+    color: ${(props) => props.theme.fontColor};
 
     &:focus {
       border-bottom: 2px solid ${(props) => props.theme["primary"]}; /* Cor e largura do traço ao focar (opcional) */

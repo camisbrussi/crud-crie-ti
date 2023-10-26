@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 interface ButtonContainerProps {
   width: number;
   height: number;
+  variant: string;
 }
 
 export const ButtonContainer = styled.button<ButtonContainerProps>`
@@ -13,6 +14,6 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
   border-radius: 10px;
 
   color: ${(props) => props.theme["white"]};
-  background-color: ${(props) => props.theme["primary"]};
+  background-color: ${(props) => props.theme[props.variant]};
   border: none;
 `;
