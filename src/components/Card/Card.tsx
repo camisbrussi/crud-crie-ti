@@ -6,19 +6,23 @@ import {
   IconButton,
 } from "./Card.styles";
 import { Pencil, Trash } from "phosphor-react";
-import { CardInfo } from "./CardInfo";
 
 interface CardProps {
   children: ReactNode;
+  openModal: (id: number) => void;
 }
 
-export function Card({ children }: CardProps) {
+export function Card({ children, openModal }: CardProps) {
   return (
     <DivContainer>
       <ContentContainer>
         {children}
         <ButtonsContainer>
-          <IconButton title="Editar" variant="primary">
+          <IconButton
+            title="Editar"
+            variant="primary"
+            onClick={openModal}
+          >
             {<Pencil size={24} />}
           </IconButton>
           <IconButton title="Exluir" variant="danger">

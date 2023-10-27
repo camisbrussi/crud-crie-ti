@@ -3,17 +3,12 @@ import { Card, CardInfo } from "@/components/Card";
 import { Header } from "@/components/Header";
 import { Menu } from "@/components/Menu";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ContentContainer, ModalContainer, UserContainer } from "./styles";
 import { Button } from "@/components/Button";
 import Modal, { Styles } from "react-modal";
 import { UserForm } from "./components/UserForm";
-
-interface User {
-  id: number;
-  nome: string;
-  email: string;
-}
+import { User } from "@/contexts/AuthContext";
 
 const customModalStyles = {
   content: {
@@ -26,17 +21,31 @@ const customModalStyles = {
 
 export default function Users() {
   const [userList, setUserList] = useState<User[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCreateUserOpen, setIsModalCreateUserOpen] = useState(false);
+  const [isModalEditUserOpen, setIsModalEditUserOpen] = useState(false);
+  const [user, setUser] = useState<User>();
 
-  function openModal() {
-    setIsModalOpen(true);
+  function openCreateUserModal() {
+    setIsModalCreateUserOpen(true);
   }
 
-  function closeModal() {
+  function closeCreateUserModal() {
     axios.get<User[]>("http://localhost:3333/usuarios").then((response) => {
       setUserList(response.data);
     });
-    setIsModalOpen(false);
+    setIsModalCreateUserOpen(false);
+  }
+
+  function openEditUserModal(editUser: User) {
+    setUser(editUser);
+    setIsModalEditUserOpen(true);
+  }
+
+  function closeEditUserModal() {
+    axios.get<User[]>("http://localhost:3333/usuarios").then((response) => {
+      setUserList(response.data);
+    });
+    setIsModalEditUserOpen(false);
   }
 
   useEffect(() => {
@@ -45,7 +54,37 @@ export default function Users() {
     });
   }, []);
 
-  console.log(userList);
+  const createUserModal = useMemo(() => {
+    // Realiza uma operação computacionalmente custosa com base nos dados
+    return (
+      <ModalContainer
+        isOpen={isModalCreateUserOpen}
+        onRequestClose={closeCreateUserModal}
+        contentLabel="Modal de Criação de Usuário"
+        style={customModalStyles as Styles}
+      >
+        <h1>Criar Novo Usuário</h1>
+
+        <UserForm closeModal={closeCreateUserModal} />
+      </ModalContainer>
+    );
+  }, [isModalCreateUserOpen]); // Apenas criar a modal quando isModalOpen mudar
+
+  const editUserModal = useMemo(() => {
+    // Realiza uma operação computacionalmente custosa com base nos dados
+    return (
+      <ModalContainer
+        isOpen={isModalEditUserOpen}
+        onRequestClose={closeEditUserModal}
+        contentLabel="Modal de Edição de Usuário"
+        style={customModalStyles as Styles}
+      >
+        <h1>Editar Usuário</h1>
+
+        <UserForm closeModal={closeEditUserModal} userData={user} />
+      </ModalContainer>
+    );
+  }, [isModalEditUserOpen, user]); // Apenas criar a modal quando isModalOpen mudar
 
   return (
     <AuthGuard>
@@ -53,10 +92,10 @@ export default function Users() {
       <UserContainer>
         <Menu />
         <ContentContainer>
-          <Button label="Criar usuário" onClick={openModal} />
+          <Button label="Criar usuário" onClick={openCreateUserModal} />
           {userList.map((user) => {
             return (
-              <Card key={user.id}>
+              <Card key={user.id} openModal={() => openEditUserModal(user)}>
                 <CardInfo title="ID" data={user.id} />
                 <CardInfo title="Nome" data={user.nome} />
                 <CardInfo title="E-mail" data={user.email} />
@@ -65,16 +104,8 @@ export default function Users() {
           })}
         </ContentContainer>
       </UserContainer>
-      <ModalContainer
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Modal de Criação de Usuário"
-        style={customModalStyles as Styles}
-      >
-        <h1>Criar Novo Usuário</h1>
-
-        <UserForm closeModal={closeModal} />
-      </ModalContainer>
+      {createUserModal}
+      {editUserModal}
     </AuthGuard>
   );
 }

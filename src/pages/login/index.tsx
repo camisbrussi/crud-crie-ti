@@ -6,9 +6,8 @@ import { Button } from "@/components/Button";
 import { FormProvider, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "@/contexts/AuthContext";
-import { Loading } from "@/components/Loading";
 
 const newLoginValidationSchema = zod.object({
   email: zod

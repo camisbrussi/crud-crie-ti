@@ -2,8 +2,9 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-type User = {
-  name: string;
+export type User = {
+  id: number;
+  nome: string;
   email: string;
 };
 
@@ -44,7 +45,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (userLogged) {
         setUser({
-          name: "Juca Bala",
+          id: 1,
+          nome: "Juca Bala",
           email: "juca@batatinha.com",
         });
       }
