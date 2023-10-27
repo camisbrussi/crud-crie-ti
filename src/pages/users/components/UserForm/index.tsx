@@ -55,13 +55,10 @@ export function UserForm({ closeModal, userData }: UserModalProps) {
 
   const { errors } = formState;
 
-  console.log(errors);
-
   async function handleCrateEditUser(data: UserData) {
     console.log(data);
     try {
       if (userData) {
-        console.log("acessou");
         await axios.put(`http://localhost:3333/usuarios/${userData.id}`, data);
 
         toast.success("Usuário Editado com sucesso");
